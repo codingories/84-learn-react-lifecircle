@@ -3,37 +3,35 @@ import React from 'react'
 class App extends React.Component {
   constructor(props){
     super(props)
-    this.state = {x:1}
+    this.state = {
+      n: 1
+    }
   }
-
   onClick = ()=>{
-    this.setState({
-      x: this.state.x + 1
-    })
+    this.setState(state=>({
+      n: state.n + 1
+    }))
+    this.setState(state=>({
+      n: state.n - 1
+    }))
+  }
+  shouldComponentUpdate(newProps, newState) {
+    if(newState.n === this.state.n){ // 如果新的state的n和当前state的n相等，则不变
+      return false
+    } else {
+      return true
+    }
   }
 
   render(){
+    console.log('render了一次')
     return (
-      <div className="App">
-        App <button onClick={this.onClick}>+1</button>
-        <B name={this.state.x}/>
+      <div>App
+        <div>
+          {this.state.n} <button onClick={this.onClick}>+1</button>
+        </div>
+
       </div>
-    );
-  }
-}
-
-class B extends React.Component{
-  componentWillReceiveProps(newProps, nextContext) {
-    console.log('props变化了') // 数值+1，打印
-    console.log('旧的props')
-    console.log(this.props) // {name:1}
-    console.log('新的props')
-    console.log(newProps) // {name:2}
-  }
-
-  render(){
-    return (
-      <div>{this.props.name}</div>
     )
   }
 }
