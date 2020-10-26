@@ -104,3 +104,57 @@ constructor(){ /* 其他代码略 */ }
   - 返回false表示阻止UI更新
   - 面试常问: shouldComponentUpdate有什么用?
     - 答: 允许手动判断是否进行组件更新，我们可以根据应用场景灵活设置返回值，避免不必要更新
+```javascript
+import React from 'react'
+
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      n: 1
+    }
+  }
+  onClick = ()=>{
+    this.setState(state=>({
+      n: state.n + 1
+    }))
+    this.setState(state=>({
+      n: state.n - 1
+    }))
+  }
+  shouldComponentUpdate(newProps, newState) {
+    if(newState.n === this.state.n){ // 如果新的state的n和当前state的n相等，则不变
+      return false
+    } else {
+      return true
+    }
+  }
+
+  render(){
+    console.log('render了一次')
+    return (
+      <div>App
+        <div>
+          {this.state.n} <button onClick={this.onClick}>+1</button>
+        </div>
+
+      </div>
+    )
+  }
+}
+export default App;
+```
+### React.PureComponent代替shouldComponentUpdate
+- PureComponent 会在 render 之前对比新 state 和旧 state 的每一个 key，以及新 props 和旧 props 的每一个 key。如果所有 key 的值全都一样，就不会 render；如果有任何一个 key 的值不同，就会 render。
+
+### render
+- 用于展示视图
+- 只能有一个根元素
+- 如果有两个根元素，就要用```<React.Fragment>```包起来
+- ```<React.Fragment>```可以缩写成```<></>```
+
+- 技巧
+  - render 里面可以写if...else
+  - render里面可以写?:表达式
+  - render里面不能直接写for循环，需要用数组
+  - render里面可以写array.map(循环)
