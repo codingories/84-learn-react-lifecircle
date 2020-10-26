@@ -26,9 +26,9 @@ class B extends React.Component{
   componentWillReceiveProps(newProps, nextContext) {
     console.log('props变化了') // 数值+1，打印
     console.log('旧的props')
-    console.log(this.props)
+    console.log(this.props) // {name:1}
     console.log('新的props')
-    console.log(newProps)
+    console.log(newProps) // {name:2}
   }
 
   render(){
